@@ -3,7 +3,13 @@ import { formatMoney } from './hooks/useUtils'
 import api from './services/api'
 import Modal from 'react-modal'
 import { useEffect, useState } from 'react'
-import { FiEdit, FiTrash } from 'react-icons/fi'
+import {
+  FiEdit,
+  FiTrash,
+  FiChevronLeft,
+  FiChevronRight,
+  FiX
+} from 'react-icons/fi'
 import { Table, Container, Tooltip } from 'react-bootstrap'
 
 const customStyles = {
@@ -165,18 +171,34 @@ function Admin() {
     setDisplayAlterar('none')
   }
 
-  function pegarId(id) {
-    setCategory(id)
-    return id
-  }
+  // function pegarId(id) {
+  //   setCategory(id)
+  //   return id
+  // }
 
   const options = [
     {
-      name: 'Notebook',
+      name: 'Escolha uma categoria',
+      id: 0
+    },
+    {
+      name: 'Periféricos',
       id: 1
     },
     {
-      name: 'Monitor',
+      name: 'Notebook',
+      id: 2
+    },
+    {
+      name: 'Hardware',
+      id: 2
+    },
+    {
+      name: 'Cadeira',
+      id: 2
+    },
+    {
+      name: 'Smartphone',
       id: 2
     }
   ]
@@ -186,6 +208,28 @@ function Admin() {
     <div className="Admin">
       <Container>
         <h1 className="admin-h1">Produtos</h1>
+        <div>
+          <button
+            className="button-icon-admin"
+            onClick={() => setPageNumber(pageNumber - 1)}
+            disabled={firstPage}
+          >
+            {' '}
+            volta
+          </button>
+
+          <span className="pages-number-admin">
+            {pageNumber + 1}-{totalPages}
+          </span>
+          <button
+            className="button-icon-admin"
+            onClick={() => setPageNumber(pageNumber + 1)}
+            disabled={lastPage}
+          >
+            {' '}
+            vai
+          </button>
+        </div>
         <Table striped bordered hover size="sm" responsive="sm">
           <thead>
             <tr>
@@ -237,26 +281,10 @@ function Admin() {
             </>
           ))}
         </Table>
+
         <button className="button-add-product" onClick={() => mostrarModal()}>
           Adicionar produto
         </button>
-        <div>
-          <button
-            onClick={() => setPageNumber(pageNumber - 1)}
-            disabled={firstPage}
-          >
-            volta
-          </button>
-          <span>
-            {pageNumber + 1}-{totalPages}
-          </span>
-          <button
-            onClick={() => setPageNumber(pageNumber + 1)}
-            disabled={lastPage}
-          >
-            vai
-          </button>
-        </div>
       </Container>
 
       <Modal
@@ -264,14 +292,12 @@ function Admin() {
         isOpen={visibleModal}
         onRequestClose={() => setVisibleModal(false)}
       >
-        <button
+        <FiX
           data-toggle="tooltip"
           title="Fechar"
           className="button-close-modal"
           onClick={() => setVisibleModal(false)}
-        >
-          x
-        </button>
+        />
         <h1 className="form-h1">Cadastro de novos produtos</h1>
         <form className="form-admin">
           {/* onSubmit={id ? editProduct : newProduct} */}
