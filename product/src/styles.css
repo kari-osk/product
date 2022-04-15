@@ -1,0 +1,171 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
+  color: #1a1a1a;
+}
+
+.admin {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.admin-h1 {
+  color: #1a1a1a;
+  font-size: 1.3rem;
+  text-align: left;
+}
+
+.button-icon-table{
+  font-size: 20px;
+  color:#1a1a1a;
+  cursor: pointer;
+}
+
+
+.button-add-product {
+  width: 185px;
+  height: 48px;
+  background: #e46f21;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.button-add-product:hover{
+  background:#ec8947;
+  border: 1px solid #2a2626;
+  color: #2a2626;
+}
+
+.button-close-modal{
+  float: right;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 2px 2px 2px #dbd4d4;
+  font-size: 1.1rem;
+
+}
+.button-close-modal:hover{
+  font-weight: bold;
+}
+
+.form-h1 {
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 18px 0;
+
+}
+.form-admin {
+  max-width: 400px;
+  min-height: fit-content;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #dcd8d8, #dad8d8);
+  box-shadow:  10px 10px 20px #e8e4e4,
+               -10px -10px 20px #fffcfc;
+}
+
+
+.div-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-category {
+  height: 32px;
+  padding-left: 4px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: 'Inter',sans-serif;
+}
+
+
+.form-span {
+  margin-bottom: 4px;
+
+}
+
+.form-input{
+  padding-left: 4px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-family: 'Inter',sans-serif;
+}
+
+
+.container-buttons {
+  display: flex;
+  margin-top: 16px;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.button-form{
+  width: 100px;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+}
+.save{
+  background: #e46f21;
+  color: #ffffff;
+}
+.save:hover {
+  background-color: #ec8947;
+  border: 1px solid #2a2626;
+  color: #2a2626;
+}
+.cancel{
+  background: #f9f8f8;
+  border: 1px solid #ec8947;
+  color:#ec8947;
+}
+.cancel:hover{
+  border: 1px solid #2a2626;
+  color: #2a2626;
+}
+
+/* p {
+  font-weight: 300;
+} */
+
+
+/* .row {
+  display: flex;
+}
+
+.row > label {
+  display: flex;
+  flex: 1;
+} */
+
+
+
+/* .checkbox {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  align-items: center;
+} */
