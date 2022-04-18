@@ -13,10 +13,16 @@
   flex: 1;
   min-height: 100vh;
 }
+.admin-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 24px auto;
+}
 
 .admin-h1 {
   color: #1a1a1a;
-  font-size: 1.3rem;
+  font-size: 2rem;
   text-align: left;
 }
 
@@ -42,17 +48,65 @@
   border: 1px solid #2a2626;
   color: #2a2626;
 }
-.button-icon-admin {
-  text-align: center;
-  font-size: 40px;
-  color:#1a1a1a;
-  cursor: pointer;
-}
-.button-icon-admin:hover {
 
+.button-icon-admin {
+display: flex;
+flex-direction: row;
 }
+
+.chevron-left {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 40px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 100px;
+}
+
+.chevron-left::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+  transform: rotate(45deg);
+  left: 14px;
+  top: 10px
+}
+
+.chevron-right {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 40px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 100px
+}
+.chevron-right::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  transform: rotate(-45deg);
+  right: 14px;
+  top: 10px
+}
+
+
 .pages-number-admin {
-  font-size: 16px;
+  padding: 6px 12px;
+  font-size: 18px;
 }
 
 .button-close-modal{
@@ -61,11 +115,11 @@
   border-radius: 4px;
   border: none;
   box-shadow: 2px 2px 2px #dbd4d4;
-  font-size: 1.1rem;
+  font-size: 35px
 
 }
 .button-close-modal:hover{
-  font-weight: bold;
+  background-color: #ec8947;
 }
 
 .form-h1 {
@@ -100,6 +154,12 @@
   flex-direction: column;
 }
 
+.td-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 10rem;
+  overflow-y: scroll;
+}
 .select-category {
   height: 32px;
   padding-left: 4px;

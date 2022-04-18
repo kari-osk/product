@@ -1,16 +1,9 @@
 import './styles.css'
 import { formatMoney } from './hooks/useUtils'
-import api from './services/api'
 import Modal from 'react-modal'
 import { useEffect, useState } from 'react'
-import {
-  FiEdit,
-  FiTrash,
-  FiChevronLeft,
-  FiChevronRight,
-  FiX
-} from 'react-icons/fi'
-import { Table, Container, Tooltip } from 'react-bootstrap'
+import { FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { Table, Container } from 'react-bootstrap'
 
 const customStyles = {
   content: {
@@ -49,9 +42,11 @@ function Admin() {
   const [totalPages, setTotalPages] = useState(0)
   const [lastPage, setLastPage] = useState(false)
   const [firstPage, setFirstPage] = useState(false)
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     getProducts()
+    getCategory()
   }, [pageNumber])
 
   async function getProducts() {
@@ -76,7 +71,7 @@ function Admin() {
     // event.preventDefault()
 
     if (!title || !description || !price || !image) {
-      alert('Preencha todos os campos')
+      alert('Preencha todos os campos.')
     } else {
       const body = {
         title,
@@ -96,13 +91,15 @@ function Admin() {
           body: JSON.stringify(body)
         })
         console.log(body)
+
         clearStates()
         getProducts()
       } catch (error) {
-        alert('Erro ao cadastrar o produto, tente novamente')
+        alert('Erro ao cadastrar o produto, tente novamente.')
+        console.log(error)
       }
+      setVisibleModal(false)
     }
-    setVisibleModal(false)
   }
 
   async function deleteProduct(id) {
@@ -127,11 +124,12 @@ function Admin() {
     setVisibleModal(true)
     setDisplayAlterar('block')
     setDisplaySalvar('none')
+    setVisibleModal(true)
   }
 
   function clearStates() {
     setId('')
-    setCategory('')
+    setCategory(0)
     setTitle('')
     setDescription('')
     setPrice('')
@@ -140,102 +138,94 @@ function Admin() {
 
   async function editProduct() {
     // event.preventDefault()
-    try {
-      const body = {
-        category,
-        title,
-        description,
-        price,
-        image
-      }
-      await fetch('http://3.16.56.233:8080/products/' + id, {
-        method: 'PATCH',
-        body: JSON.stringify(body)
-      })
-      // alert('Dados do produto alterados com sucesso.')
-      clearStates()
-      getProducts()
-    } catch (error) {
-      alert('Erro ao alterar os dados do produto')
-    }
-  }
 
-  function updateProduct() {
-    editProduct()
-    setVisibleModal(false)
+    if (category > 0) {
+      try {
+        const body = {
+          id,
+          category,
+          title,
+          description,
+          price,
+          image
+        }
+        await fetch('http://3.16.56.233:8080/products', {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+        // alert('Dados do produto alterados com sucesso.')
+        clearStates()
+        getProducts()
+      } catch (error) {
+        alert('Erro ao alterar os dados do produto')
+      }
+      setVisibleModal(false)
+    } else {
+      alert('Selecione uma categoria')
+    }
   }
 
   function mostrarModal() {
     setVisibleModal(true)
     setDisplaySalvar('block')
     setDisplayAlterar('none')
+    clearStates()
   }
 
-  // function pegarId(id) {
-  //   setCategory(id)
-  //   return id
-  // }
+  async function getCategory() {
+    try {
+      const data = await fetch('http://3.16.56.233:8080/categories')
+      const response = await data.json()
 
-  const options = [
-    {
-      name: 'Escolha uma categoria',
-      id: 0
-    },
-    {
-      name: 'Periféricos',
-      id: 1
-    },
-    {
-      name: 'Notebook',
-      id: 2
-    },
-    {
-      name: 'Hardware',
-      id: 2
-    },
-    {
-      name: 'Cadeira',
-      id: 2
-    },
-    {
-      name: 'Smartphone',
-      id: 2
+      setCategories(response)
+    } catch (error) {
+      alert('Houve um erro de comunicação com o servidor.', error)
     }
-  ]
+  }
+
   // return----------------------------------------------------------------------
 
   return (
     <div className="Admin">
       <Container>
-        <h1 className="admin-h1">Produtos</h1>
-        <div>
-          <button
-            className="button-icon-admin"
-            onClick={() => setPageNumber(pageNumber - 1)}
-            disabled={firstPage}
-          >
-            {' '}
-            volta
-          </button>
+        <section className="admin-header">
+          <h1 className="admin-h1">Lista de produtos</h1>
+          <div className="button-icon-admin">
+            <button
+              className="chevron-left"
+              onClick={() => setPageNumber(pageNumber - 1)}
+              disabled={firstPage}
+            >
+              {' '}
+            </button>
 
-          <span className="pages-number-admin">
-            {pageNumber + 1}-{totalPages}
-          </span>
-          <button
-            className="button-icon-admin"
-            onClick={() => setPageNumber(pageNumber + 1)}
-            disabled={lastPage}
-          >
-            {' '}
-            vai
+            <span className="pages-number-admin">
+              {pageNumber + 1} - {totalPages}
+            </span>
+            <button
+              className="chevron-right"
+              onClick={() => setPageNumber(pageNumber + 1)}
+              disabled={lastPage}
+            >
+              {' '}
+            </button>
+          </div>
+
+          <button className="button-add-product" onClick={() => mostrarModal()}>
+            Adicionar produto
           </button>
-        </div>
+        </section>
+
         <Table striped bordered hover size="sm" responsive="sm">
           <thead>
             <tr>
               <th>Id</th>
               <th>Categoria</th>
-              <th>Nome do produto</th>
+              <th>Nome</th>
               <th>Descrição</th>
               <th>Preço</th>
               <th>Imagem</th>
@@ -245,12 +235,11 @@ function Admin() {
           {products.map(product => (
             <>
               <tbody>
-                {/* key={product.id} */}
                 <tr>
                   <td>{product.id}</td>
                   <td>{product.category.name}</td>
                   <td>{product.title}</td>
-                  <td>{product.description}</td>
+                  <td className="td-description">{product.description}</td>
                   <td>{formatMoney(product.price)}</td>
                   <td>{product.image}</td>
                   <td>
@@ -281,10 +270,6 @@ function Admin() {
             </>
           ))}
         </Table>
-
-        <button className="button-add-product" onClick={() => mostrarModal()}>
-          Adicionar produto
-        </button>
       </Container>
 
       <Modal
@@ -308,11 +293,9 @@ function Admin() {
                 className="select-category"
                 onChange={e => setCategory(e.target.value)}
               >
-                {options.map(option => (
-                  <option value={option.id}>
-                    {option.name}
-                    {/* {console.log(option.id)} */}
-                  </option>
+                <option value="0">Selecione a categoria</option>
+                {categories.map(category => (
+                  <option value={category.id}>{category.name}</option>
                 ))}
               </select>
             </label>
@@ -372,7 +355,7 @@ function Admin() {
             style={{ display: displayAlterar }}
             className="button-form save"
             type="submit"
-            onClick={() => updateProduct()}
+            onClick={() => editProduct()}
           >
             Alterar
           </button>
